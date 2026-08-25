@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productividad CE · HGR Reynosa · 17 al 21 de ago 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --verde:#1a5c3a;--verde-light:#e8f5ee;--guinda:#6D1E36;--guinda-light:#f5e8ec;
+  --gold:#b8861b;--gold-light:#fdf3dc;--azul:#1a4a8a;--azul-light:#e8eef8;
+  --naranja:#c05010;--naranja-light:#fdeee6;
+  --gris:#4a4a4a;--gris-light:#f5f5f3;--borde:#ddd8d0;
+  --bg:#fafaf8;--blanco:#fff;--text:#1a1a1a;--text-sec:#5a5a5a;--text-ter:#8a8a8a;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;}
+.import-bar{background:#fff3cd;border-bottom:2px solid var(--gold);padding:10px 28px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.import-bar label{font-size:12px;font-weight:600;color:#7a5a00;cursor:pointer;}
+.import-btn{background:var(--gold);color:#fff;border:none;border-radius:4px;padding:7px 18px;font-size:12px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;}
+.import-btn:hover{background:#9a6e10;}
+.export-btn{background:#1a5c3a;color:#fff;border:none;border-radius:4px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;white-space:nowrap;}
+.export-btn:hover{background:#2d7a52;}
+.import-status{font-size:12px;color:#5a4a00;font-style:italic;}
+#xlsxInput{display:none;}
+.import-hint{font-size:11px;color:#8a7000;margin-left:auto;}
+.header{background:var(--verde);}
+.header-strip{background:var(--guinda);padding:5px 28px;font-size:10px;color:rgba(255,255,255,.65);letter-spacing:.05em;}
+.header-inner{display:flex;align-items:stretch;max-width:1300px;margin:0 auto;}
+.header-accent{width:5px;background:var(--gold);flex-shrink:0;}
+.header-content{padding:16px 24px;flex:1;}
+.header-sup{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px;}
+.header-title{font-size:18px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:2px;}
+.header-sub{font-size:11px;color:rgba(255,255,255,.6);}
+.header-kpis{display:flex;align-items:center;padding:14px 18px;border-left:1px solid rgba(255,255,255,.12);}
+.hkpi{text-align:center;padding:0 13px;border-right:1px solid rgba(255,255,255,.12);}
+.hkpi:last-child{border-right:none;}
+.hkpi-val{font-size:22px;font-weight:600;color:#fff;font-family:'IBM Plex Mono',monospace;}
+.hkpi-label{font-size:10px;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
+.main{max-width:1300px;margin:0 auto;padding:18px 24px 32px;}
+.sec{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text-ter);margin:20px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--borde);display:flex;align-items:center;gap:7px;}
+.sec::before{content:'';width:3px;height:12px;background:var(--verde);border-radius:2px;display:inline-block;}
+.card{background:var(--blanco);border:1px solid var(--borde);border-radius:6px;padding:13px 15px;}
+.card-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-sec);margin-bottom:11px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.g23{display:grid;grid-template-columns:1.15fr 1fr;gap:10px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px;}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+.kpi-e{background:var(--blanco);border:1px solid var(--borde);border-radius:6px;padding:10px 13px;position:relative;overflow:hidden;}
+.kpi-e::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi-e-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-ter);margin-bottom:3px;font-weight:500;}
+.kpi-e-val{font-size:20px;font-weight:600;font-family:'IBM Plex Mono',monospace;line-height:1;}
+.kpi-e-sub{font-size:10px;color:var(--text-sec);margin-top:2px;}
+.bar-item{display:flex;align-items:center;gap:6px;margin-bottom:7px;}
+.bar-name{font-size:11px;color:var(--text-sec);width:170px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-name-wide{font-size:11px;color:var(--text-sec);width:200px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-track{flex:1;background:var(--gris-light);border-radius:3px;height:15px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-num{font-size:11px;font-weight:500;color:var(--text);width:28px;text-align:right;font-family:'IBM Plex Mono',monospace;}
+.bar-pct{font-size:10px;color:var(--text-ter);width:34px;text-align:right;}
+.svc-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle;flex-shrink:0;}
+.tbl{width:100%;border-collapse:collapse;font-size:12px;}
+.tbl thead th{text-align:left;padding:6px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--text-ter);border-bottom:1.5px solid var(--borde);background:var(--gris-light);}
+.tbl thead th.r{text-align:right;}
+.tbl tbody td{padding:6px 7px;border-bottom:1px solid #eeebe5;color:var(--text);}
+.tbl tbody td.r{text-align:right;}
+.tbl tbody tr:hover{background:var(--gris-light);}
+.tbl tbody tr:last-child td{border-bottom:none;}
+.tbl tfoot td{padding:6px 7px;font-weight:600;border-top:1.5px solid var(--borde);background:var(--gris-light);font-family:'IBM Plex Mono',monospace;}
+.tbl tfoot td.r{text-align:right;}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.hm-tbl{border-collapse:collapse;font-size:11px;width:100%;}
+.hm-tbl th{padding:5px 7px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--text-ter);}
+.hm-tbl td{padding:4px 5px;text-align:center;border-radius:3px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;min-width:46px;}
+.hm-svc{text-align:left!important;font-family:'IBM Plex Sans',sans-serif;font-size:12px;padding-left:6px!important;white-space:nowrap;}
+.hm-0{background:#f0ede8;color:#ccc!important;font-weight:400!important;}
+.leg{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:9px;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-sec);}
+.leg-sq{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.tipo-esp{background:#eef2fb;color:#0d3575;font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;display:inline-block;}
+.tipo-gral{background:#e8f5ee;color:#1a5c3a;font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;display:inline-block;}
+.tipo-odo{background:#fdf3dc;color:#8a5a1a;font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;display:inline-block;}
+.tipo-psi{background:#f5e8ec;color:#6D1E36;font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;display:inline-block;}
+.tipo-oth{background:#f5f5f3;color:#4a4a4a;font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;display:inline-block;}
+.insight{border-radius:6px;padding:11px 14px;border-left:3px solid;margin-bottom:8px;}
+.insight.fuerza{background:#e8f5ee;border-color:#1a5c3a;}
+.insight.debil{background:#fdeee6;border-color:#c05010;}
+.insight.info{background:#e8eef8;border-color:#1a4a8a;}
+.insight.alerta{background:#fdf3dc;border-color:#b8861b;}
+.insight-head{font-size:11px;font-weight:600;margin-bottom:2px;}
+.insight.fuerza .insight-head{color:#1a5c3a;}
+.insight.debil .insight-head{color:#c05010;}
+.insight.info .insight-head{color:#1a4a8a;}
+.insight.alerta .insight-head{color:#b8861b;}
+.insight-text{font-size:12px;color:#1a1a1a;line-height:1.55;}
+.ins-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.footer{background:var(--verde);color:rgba(255,255,255,.45);font-size:10px;text-align:center;padding:9px;margin-top:26px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-strip">IMSS-Bienestar · CLUES: TSIMB001260 · Subdirección de Planeación y Calidad · Q.F.B. Protacio Serna Ramírez</div><div class="header-inner"><div class="header-accent"></div><div class="header-content"><div class="header-sup">Dashboard de productividad · Consulta externa por especialidad</div><div class="header-title">Hospital General Reynosa "Dr. José María Cantú Garza"</div><div class="header-sub" id="headerSub">Semana: 17 al 21 de ago 2026 · 5 días hábiles · Director General: Dr. Néstor Carlos García Prugue</div></div><div class="header-kpis"><div class="hkpi"><div class="hkpi-val" id="kTOTAL">578</div><div class="hkpi-label">Total consultas</div></div><div class="hkpi"><div class="hkpi-val" id="kCE">550</div><div class="hkpi-label">C. Externa</div></div><div class="hkpi"><div class="hkpi-val" id="kSB">20</div><div class="hkpi-label">Salud Bucal</div></div><div class="hkpi"><div class="hkpi-val" id="kSM">8</div><div class="hkpi-label">Salud Mental</div></div><div class="hkpi"><div class="hkpi-val" id="kDET">89</div><div class="hkpi-label">Detecciones</div></div></div></div></div>
+<div class="main"><div id="kpiCards" class="g4" style="margin-top:14px;"></div><div id="kpiCards2" class="g5" style="margin-bottom:10px;"></div><div class="sec">Volumen y distribución por especialidad</div><div class="g23" style="margin-bottom:10px;"><div class="card"><div class="card-title">Consultas totales por especialidad</div><div id="svcBars"></div></div><div class="card"><div class="card-title">Distribución porcentual</div><div style="position:relative;width:100%;height:300px;"><canvas id="donutChart"></canvas></div></div></div><div class="sec">Evolución diaria</div><div class="card" style="margin-bottom:10px;"><div class="card-title">Tendencia diaria — especialidades de mayor volumen</div><div class="leg" id="trendLeg"></div><div style="position:relative;width:100%;height:240px;"><canvas id="trendChart"></canvas></div></div><div class="g2" style="margin-bottom:10px;"><div class="card"><div class="card-title">Composición diaria por especialidad (apiladas)</div><div style="position:relative;width:100%;height:240px;"><canvas id="stackedChart"></canvas></div></div><div class="card"><div class="card-title">Resumen diario</div><table class="tbl"><thead><tr><th>Día</th><th class="r" style="color:var(--azul)">C.Ext</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r" style="color:var(--gris)">Detect.</th></tr></thead><tbody id="dayTbody"></tbody></table></div></div><div class="sec">Mapa de calor — consultas por especialidad y día</div><div class="card" style="padding:13px 9px;margin-bottom:10px;overflow-x:auto;"><table class="hm-tbl" id="heatTable"></table></div><div class="sec">Tabla completa por especialidad</div><div class="card" style="padding:0;overflow:hidden;margin-bottom:10px;"><table class="tbl"><thead><tr><th>Especialidad</th><th class="r">C. Externa</th><th class="r">S. Bucal</th><th class="r">S. Mental</th><th class="r">Total</th><th class="r">% total</th><th class="r">Máx día</th><th class="r">Detecciones</th></tr></thead><tbody id="svcTbody"></tbody><tfoot><tr><td>TOTAL</td><td class="r" id="ftCE">550</td><td class="r" id="ftSB">20</td><td class="r" id="ftSM">8</td><td class="r" id="ftTOT">578</td><td class="r">100%</td><td class="r">—</td><td class="r" id="ftDET">89</td></tr></tfoot></table></div><div class="sec">Desempeño por profesional</div><div style="display:grid;grid-template-columns:340px 1fr;gap:10px;margin-bottom:10px;"><div class="card"><div class="card-title">Ranking — consulta externa (semana)</div><div id="profRankingBars"></div></div><div class="card" style="padding:0;overflow:hidden;"><table class="tbl"><thead><tr><th>Profesional</th><th>Tipo</th><th class="r">Días</th><th class="r" style="color:var(--azul)">C. Ext.</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r">Prom/día</th><th class="r" style="color:var(--gris)">Det.</th></tr></thead><tbody id="profTbody"></tbody></table></div></div><div class="sec">Hallazgos clave</div><div class="ins-grid" id="hallazgosGrid" style="margin-bottom:10px;"></div></div>
+<div class="footer">Semana: 17 al 21 de ago 2026 · Publicado: 24/8/2026 · Hospital General Reynosa · IMSS-Bienestar · CLUES: TSIMB001260</div>
+<script>
+var PALETTE=["#1a4a8a","#7a1a4a","#0d6e6e","#1a7a3a","#8a5a1a","#5a3a8a","#2a6e3a","#8a3a1a","#1a5a7a","#4a7a3a","#3a6a8a","#6a4a1a","#6e1a1a","#5a1a5a","#1a3a6a","#6e6e1a","#3a1a6e","#1a6e4a"];
+var DATA={
+  "semana": "17 al 21 de ago 2026",
+  "dias": [
+    "Lun 17",
+    "Mar 18",
+    "Mié 19",
+    "Jue 20",
+    "Vie 21"
+  ],
+  "totales": {
+    "CE": 550,
+    "SB": 20,
+    "SM": 8,
+    "DET": 89,
+    "TOTAL": 578
+  },
+  "por_dia": [
+    {
+      "fecha": "Lun 17",
+      "CE": 124,
+      "SB": 2,
+      "SM": 5,
+      "DET": 17,
+      "TOTAL": 131
+    },
+    {
+      "fecha": "Mar 18",
+      "CE": 139,
+      "SB": 0,
+      "SM": 1,
+      "DET": 19,
+      "TOTAL": 140
+    },
+    {
+      "fecha": "Mié 19",
+      "CE": 90,
+      "SB": 10,
+      "SM": 0,
+      "DET": 19,
+      "TOTAL": 100
+    },
+    {
+      "fecha": "Jue 20",
+      "CE": 131,
+      "SB": 0,
+      "SM": 2,
+      "DET": 13,
+      "TOTAL": 133
+    },
+    {
+      "fecha": "Vie 21",
+      "CE": 66,
+      "SB": 8,
+      "SM": 0,
+      "DET": 21,
+      "TOTAL": 74
+    }
+  ],
+  "especialidades": [
+    {
+      "nombre": "MEDICINA GENERAL",
+      "CE": 114,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        26,
+        20,
+        22,
+        25,
+        21
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 114
+    },
+    {
+      "nombre": "MEDICINA INTERNA",
+      "CE": 81,
+      "SB": 0,
+      "SM": 0,
+      "DET": 89,
+      "d_CE": [
+        21,
+        10,
+        10,
+        22,
+        18
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        17,
+        19,
+        19,
+        13,
+        21
+      ],
+      "TOTAL": 81
+    },
+    {
+      "nombre": "TRAUMATOLOGÍA",
+      "CE": 68,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        9,
+        33,
+        15,
+        11,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 68
+    },
+    {
+      "nombre": "NEFROLOGÍA",
+      "CE": 68,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        18,
+        17,
+        18,
+        15,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 68
+    },
+    {
+      "nombre": "GINECOLOGÍA",
+      "CE": 40,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        12,
+        3,
+        6,
+        6,
+        13
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 40
+    },
+    {
+      "nombre": "EPIDEMIOLOGÍA",
+      "CE": 30,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        7,
+        6,
+        6,
+        7,
+        4
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 30
+    },
+    {
+      "nombre": "PEDIATRÍA",
+      "CE": 21,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        8,
+        8,
+        0,
+        5,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 21
+    },
+    {
+      "nombre": "ODONTOLOGÍA",
+      "CE": 0,
+      "SB": 20,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        2,
+        0,
+        10,
+        0,
+        8
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 20
+    },
+    {
+      "nombre": "ESPECIALISTA S/D",
+      "CE": 20,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        16,
+        4
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 20
+    },
+    {
+      "nombre": "CIRUGÍA GENERAL",
+      "CE": 19,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        13,
+        6,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 19
+    },
+    {
+      "nombre": "OFTALMOLOGÍA",
+      "CE": 18,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        5,
+        5,
+        4,
+        4,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 18
+    },
+    {
+      "nombre": "ANESTESIOLOGÍA",
+      "CE": 17,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        11,
+        2,
+        0,
+        4,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 17
+    },
+    {
+      "nombre": "UROLOGÍA",
+      "CE": 16,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        10,
+        6
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 16
+    },
+    {
+      "nombre": "OPTOMETRISTA",
+      "CE": 13,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        5,
+        4,
+        1,
+        3,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 13
+    },
+    {
+      "nombre": "UROLOGÍA GINECOLÓGICA",
+      "CE": 11,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        11,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 11
+    },
+    {
+      "nombre": "PSICOLOGÍA",
+      "CE": 0,
+      "SB": 0,
+      "SM": 8,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        5,
+        1,
+        0,
+        2,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 8
+    },
+    {
+      "nombre": "DISPLACIAS",
+      "CE": 7,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        2,
+        2,
+        3,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 7
+    },
+    {
+      "nombre": "NEUROCIRUGÍA",
+      "CE": 4,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        4,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 4
+    },
+    {
+      "nombre": "DERMATOLOGÍA",
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        2,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 2
+    },
+    {
+      "nombre": "NUTRICIÓN",
+      "CE": 1,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 1
+    }
+  ],
+  "profesionales": [
+    {
+      "nombre": "NESTOR CARLOS GARCIA PRUGUE",
+      "tipo": "NEFROLOGÍA",
+      "dias": 4,
+      "CE": 68,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 68
+    },
+    {
+      "nombre": "ALBERTO ONOFRE SANCHEZ MEZA",
+      "tipo": "MEDICINA INTERNA",
+      "dias": 5,
+      "CE": 65,
+      "SB": 0,
+      "SM": 0,
+      "DET": 89,
+      "TOTAL": 65
+    },
+    {
+      "nombre": "LIZETH GREGORIA MIRELES MARROQUIN",
+      "tipo": "MEDICINA GENERAL",
+      "dias": 5,
+      "CE": 56,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 56
+    },
+    {
+      "nombre": "JOSE ROBERTO SEQUERA MORENO",
+      "tipo": "MEDICINA GENERAL",
+      "dias": 5,
+      "CE": 46,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 46
+    },
+    {
+      "nombre": "JOSEFA LOPEZ VIVEROS",
+      "tipo": "EPIDEMIOLOGÍA",
+      "dias": 5,
+      "CE": 30,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 30
+    },
+    {
+      "nombre": "LUIS FERNANDO GONZALEZ ALATORRE",
+      "tipo": "TRAUMATOLOGÍA",
+      "dias": 3,
+      "CE": 30,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 30
+    },
+    {
+      "nombre": "CLAUDIA SUAREZ ZARATE",
+      "tipo": "PEDIATRÍA",
+      "dias": 3,
+      "CE": 21,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 21
+    },
+    {
+      "nombre": "ARMANDO JESUS CANTU ANDRE",
+      "tipo": "TRAUMATOLOGÍA",
+      "dias": 1,
+      "CE": 20,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 20
+    },
+    {
+      "nombre": "CARLOS GUEVARA REYES",
+      "tipo": "OFTALMOLOGÍA",
+      "dias": 4,
+      "CE": 18,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 18
+    },
+    {
+      "nombre": "FELIPE CABRERA OLVERA",
+      "tipo": "TRAUMATOLOGÍA",
+      "dias": 2,
+      "CE": 18,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 18
+    },
+    {
+      "nombre": "JOSE RAMIRO RUIZ MATA",
+      "tipo": "ANESTESIOLOGÍA",
+      "dias": 3,
+      "CE": 17,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 17
+    },
+    {
+      "nombre": "CHRISTIAN AMEZCUA GARCIA",
+      "tipo": "MEDICINA INTERNA",
+      "dias": 5,
+      "CE": 14,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 14
+    },
+    {
+      "nombre": "JESUS GUTIERREZ SERMEÑO",
+      "tipo": "GINECOLOGÍA",
+      "dias": 2,
+      "CE": 14,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 14
+    },
+    {
+      "nombre": "LARIZA LIZBETH REYNA RAMIREZ",
+      "tipo": "OPTOMETRISTA",
+      "dias": 4,
+      "CE": 13,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 13
+    },
+    {
+      "nombre": "JOSE LUIS HERNANDEZ ESTRADA",
+      "tipo": "CIRUGÍA GENERAL",
+      "dias": 1,
+      "CE": 13,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 13
+    },
+    {
+      "nombre": "CELIA MARIA PEREZ GONZALEZ",
+      "tipo": "MEDICINA GENERAL",
+      "dias": 4,
+      "CE": 12,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 12
+    },
+    {
+      "nombre": "ALBERTO ARROYO NAVA",
+      "tipo": "UROLOGÍA GINECOLÓGICA",
+      "dias": 1,
+      "CE": 11,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 11
+    },
+    {
+      "nombre": "IVAN MANUEL AGUIÑAGA GUERRERO",
+      "tipo": "UROLOGÍA",
+      "dias": 1,
+      "CE": 10,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 10
+    },
+    {
+      "nombre": "GUADALUPE VILLARREAL CANTU",
+      "tipo": "ODONTOLOGÍA",
+      "dias": 2,
+      "CE": 0,
+      "SB": 9,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 9
+    },
+    {
+      "nombre": "MARIBEL LARA CHAVARRIA",
+      "tipo": "GINECOLOGÍA",
+      "dias": 3,
+      "CE": 9,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 9
+    },
+    {
+      "nombre": "BERENICE HERRERA PECINA",
+      "tipo": "ESPECIALISTA S/D",
+      "dias": 1,
+      "CE": 9,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 9
+    },
+    {
+      "nombre": "DORA ELIA MORENO PECINA",
+      "tipo": "PSICOLOGÍA",
+      "dias": 3,
+      "CE": 0,
+      "SB": 0,
+      "SM": 8,
+      "DET": 0,
+      "TOTAL": 8
+    },
+    {
+      "nombre": "MARCELA QUEIKO SEO MENDOZA",
+      "tipo": "GINECOLOGÍA",
+      "dias": 1,
+      "CE": 7,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 7
+    },
+    {
+      "nombre": "JUAN LUIS ALEMAN DE LA FUENTE",
+      "tipo": "DISPLACIAS",
+      "dias": 3,
+      "CE": 7,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 7
+    },
+    {
+      "nombre": "KARLA CAROLINA RODRIGUEZ CANTU",
+      "tipo": "ODONTOLOGÍA",
+      "dias": 2,
+      "CE": 0,
+      "SB": 7,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 7
+    },
+    {
+      "nombre": "SALVADOR VICENTE GARCIA CALDERA",
+      "tipo": "ESPECIALISTA S/D",
+      "dias": 1,
+      "CE": 7,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 7
+    },
+    {
+      "nombre": "ROBERTO OLVERA OBELE",
+      "tipo": "CIRUGÍA GENERAL",
+      "dias": 1,
+      "CE": 6,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 6
+    },
+    {
+      "nombre": "JAVIER SALOMON ALVARADO DORIA",
+      "tipo": "UROLOGÍA",
+      "dias": 1,
+      "CE": 6,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 6
+    },
+    {
+      "nombre": "JORGE LUIS LEON GONZALEZ",
+      "tipo": "GINECOLOGÍA",
+      "dias": 2,
+      "CE": 5,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 5
+    },
+    {
+      "nombre": "ERNESTO CANTU CANTU",
+      "tipo": "GINECOLOGÍA",
+      "dias": 1,
+      "CE": 5,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 5
+    },
+    {
+      "nombre": "ROBERTO DIAZ ESTRADA",
+      "tipo": "NEUROCIRUGÍA",
+      "dias": 1,
+      "CE": 4,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 4
+    },
+    {
+      "nombre": "CARLOS ALBERTO ACOSTA PEÑA",
+      "tipo": "ODONTOLOGÍA",
+      "dias": 1,
+      "CE": 0,
+      "SB": 4,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 4
+    },
+    {
+      "nombre": "HECTOR SIERRA CASTILLO",
+      "tipo": "ESPECIALISTA S/D",
+      "dias": 1,
+      "CE": 4,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 4
+    },
+    {
+      "nombre": "GUDBERTO GARCIA BORREGO",
+      "tipo": "MEDICINA INTERNA",
+      "dias": 2,
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
+    },
+    {
+      "nombre": "PEDRO SEGUNDO MARTINEZ",
+      "tipo": "DERMATOLOGÍA",
+      "dias": 1,
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
+    },
+    {
+      "nombre": "SYLVIA ARACELY CARRANZA PEÑA",
+      "tipo": "NUTRICIÓN",
+      "dias": 1,
+      "CE": 1,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 1
+    }
+  ]
+};
+var chartDonut=null,chartTrend=null,chartStacked=null;
+function renderAll(){
+  var D=DATA,T=D.totales,E=D.especialidades;
+  if(!E||E.length===0) return;
+  var COLS=E.map(function(_,i){return PALETTE[i%PALETTE.length];});
+  var nDias=D.dias.length;
+
+  document.getElementById('kTOTAL').textContent=T.TOTAL;
+  document.getElementById('kCE').textContent=T.CE;
+  document.getElementById('kSB').textContent=T.SB;
+  document.getElementById('kSM').textContent=T.SM;
+  document.getElementById('kDET').textContent=T.DET;
+
+  // KPI specialty cards
+  var top4=E.slice(0,Math.min(4,E.length));
+  var rest=E.slice(4,Math.min(10,E.length));
+  document.getElementById('kpiCards').innerHTML=top4.map(function(e,i){
+    return '<div class="kpi-e"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+COLS[i]+';"></div><div class="kpi-e-label">'+e.nombre+'</div><div class="kpi-e-val" style="color:'+COLS[i]+';">'+e.TOTAL+'</div><div class="kpi-e-sub">'+(e.TOTAL/nDias).toFixed(1)+'/día'+(e.DET>0?' · Det:'+e.DET:'')+'</div></div>';
+  }).join('');
+  document.getElementById('kpiCards2').innerHTML=rest.map(function(e,i){
+    var diasActivos=e.d_CE.filter(function(v){return v>0;}).length||1;
+    return '<div class="kpi-e"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+COLS[i+4]+';"></div><div class="kpi-e-label" style="font-size:9px;">'+e.nombre+'</div><div class="kpi-e-val" style="color:'+COLS[i+4]+';font-size:16px;">'+e.TOTAL+'</div><div class="kpi-e-sub">'+(e.TOTAL/diasActivos).toFixed(1)+'/día activo</div></div>';
+  }).join('');
+
+  // SVC BARS
+  var maxT=E[0].TOTAL;
+  document.getElementById('svcBars').innerHTML=E.map(function(e,i){
+    return '<div class="bar-item"><div class="bar-name"><span class="svc-dot" style="background:'+COLS[i]+';"></span>'+e.nombre+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(e.TOTAL/maxT*100)+'%;background:'+COLS[i]+';opacity:.85;"></div></div><div class="bar-num">'+e.TOTAL+'</div><div class="bar-pct">'+((e.TOTAL/T.TOTAL)*100).toFixed(1)+'%</div></div>';
+  }).join('');
+
+  // DONUT
+  if(chartDonut){chartDonut.destroy();chartDonut=null;}
+  chartDonut=new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:E.map(function(e){return e.nombre;}),datasets:[{data:E.map(function(e){return e.TOTAL;}),backgroundColor:COLS,borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'50%',plugins:{legend:{position:'right',labels:{font:{size:9},boxWidth:11,padding:5}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+ctx.parsed+' ('+((ctx.parsed/T.TOTAL)*100).toFixed(1)+'%)';}}}}}});
+
+  // TREND
+  var top5=E.slice(0,5);
+  document.getElementById('trendLeg').innerHTML=top5.map(function(e,i){return '<span class="leg-item"><span class="leg-sq" style="background:'+COLS[i]+';"></span>'+e.nombre+'</span>';}).join('');
+  if(chartTrend){chartTrend.destroy();chartTrend=null;}
+  chartTrend=new Chart(document.getElementById('trendChart'),{type:'line',data:{labels:D.dias,datasets:top5.map(function(e,i){return{label:e.nombre,data:D.dias.map(function(_,j){var v=e.d_CE[j]+e.d_SB[j]+e.d_SM[j];return v>0?v:null;}),borderColor:COLS[i],backgroundColor:COLS[i]+'18',tension:.3,fill:false,pointRadius:4,pointBackgroundColor:COLS[i],borderWidth:2,spanGaps:false};})},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}}},y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}},beginAtZero:true}}}});
+
+  // STACKED
+  var top8=E.slice(0,8);
+  if(chartStacked){chartStacked.destroy();chartStacked=null;}
+  chartStacked=new Chart(document.getElementById('stackedChart'),{type:'bar',data:{labels:D.dias,datasets:top8.map(function(e,i){return{label:e.nombre,data:D.dias.map(function(_,j){return e.d_CE[j]+e.d_SB[j]+e.d_SM[j];}),backgroundColor:COLS[i],stack:'s'};})},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}}},y:{stacked:true,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:11}},beginAtZero:true}}}});
+
+  // DAY TABLE
+  document.getElementById('dayTbody').innerHTML=D.por_dia.map(function(d){return '<tr><td><strong>'+d.fecha+'</strong></td><td class="r mono" style="color:var(--azul);">'+d.CE+'</td><td class="r mono" style="color:var(--gold);">'+d.SB+'</td><td class="r mono" style="color:var(--guinda);">'+(d.SM||'—')+'</td><td class="r" style="font-weight:600;font-family:IBM Plex Mono,monospace;">'+d.TOTAL+'</td><td class="r mono" style="color:var(--gris);">'+(d.DET||'—')+'</td></tr>';}).join('');
+
+  // HEATMAP
+  var allVals=[];
+  E.forEach(function(e){D.dias.forEach(function(_,j){var v=e.d_CE[j]+e.d_SB[j]+e.d_SM[j];if(v>0)allVals.push(v);});});
+  var maxH=allVals.reduce(function(a,b){return Math.max(a,b);},1);
+  var hm=document.getElementById('heatTable');
+  hm.innerHTML='<tr><th style="text-align:left;padding:5px 8px;">Especialidad</th>'+D.dias.map(function(d){return '<th>'+d+'</th>';}).join('')+'<th style="padding:5px 8px;">Total</th></tr>';
+  E.forEach(function(e,i){
+    var row='<tr><td class="hm-svc"><span class="svc-dot" style="background:'+COLS[i]+';"></span>'+e.nombre+'</td>';
+    D.dias.forEach(function(_,j){
+      var v=e.d_CE[j]+e.d_SB[j]+e.d_SM[j];
+      if(v===0){row+='<td class="hm-0">—</td>';}
+      else{var r=parseInt(COLS[i].slice(1,3),16),g=parseInt(COLS[i].slice(3,5),16),b=parseInt(COLS[i].slice(5,7),16);var alpha=0.18+(v/maxH)*0.72,tc=(v/maxH)>0.4?'#fff':'#333';row+='<td style="background:rgba('+r+','+g+','+b+','+alpha+');color:'+tc+';">'+v+'</td>';}
+    });
+    row+='<td style="font-weight:700;font-family:IBM Plex Mono,monospace;text-align:center;padding:4px 7px;">'+e.TOTAL+'</td></tr>';
+    hm.innerHTML+=row;
+  });
+
+  // SVC TABLE
+  document.getElementById('svcTbody').innerHTML=E.map(function(e,i){
+    var maxD=D.dias.reduce(function(mx,_,j){return Math.max(mx,e.d_CE[j]+e.d_SB[j]+e.d_SM[j]);},0);
+    return '<tr><td><span class="svc-dot" style="background:'+COLS[i]+';"></span><strong>'+e.nombre+'</strong></td><td class="r mono" style="color:var(--azul);">'+(e.CE||'—')+'</td><td class="r mono" style="color:var(--gold);">'+(e.SB||'—')+'</td><td class="r mono" style="color:var(--guinda);">'+(e.SM||'—')+'</td><td class="r" style="font-weight:600;font-family:IBM Plex Mono,monospace;">'+e.TOTAL+'</td><td class="r mono">'+((e.TOTAL/T.TOTAL)*100).toFixed(1)+'%</td><td class="r mono">'+maxD+'</td><td class="r mono" style="color:var(--gris);">'+(e.DET||'—')+'</td></tr>';
+  }).join('');
+  document.getElementById('ftCE').textContent=T.CE;
+  document.getElementById('ftSB').textContent=T.SB;
+  document.getElementById('ftSM').textContent=T.SM;
+  document.getElementById('ftTOT').textContent=T.TOTAL;
+  document.getElementById('ftDET').textContent=T.DET;
+
+  renderProf();
+  renderHallazgos();
+}
+function renderProf(){
+  var P=DATA.profesionales||[];
+  var nDias=DATA.dias.length;
+  var ceProfs=P.filter(function(p){return p.CE>0;}).sort(function(a,b){return b.CE-a.CE;});
+  var maxCE=ceProfs.length>0?ceProfs[0].CE:1;
+  document.getElementById('profRankingBars').innerHTML=ceProfs.map(function(p){
+    var col=p.tipo==='MED.GRAL'?'#1a7a3a':'#1a4a8a';
+    return '<div class="bar-item"><div class="bar-name-wide">'+p.nombre.split(',')[0]+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.round(p.CE/maxCE*100)+'%;background:'+col+';opacity:.85;"></div></div><div class="bar-num">'+p.CE+'</div></div>';
+  }).join('');
+  function tipoTag(t){
+    if(t.includes('GRAL')) return '<span class="tipo-gral">'+t+'</span>';
+    if(t.includes('ODO')) return '<span class="tipo-odo">'+t+'</span>';
+    if(t.includes('PSIC')) return '<span class="tipo-psi">'+t+'</span>';
+    if(t.includes('ESP')||t.includes('MED')) return '<span class="tipo-esp">'+t+'</span>';
+    return '<span class="tipo-oth">'+t+'</span>';
+  }
+  document.getElementById('profTbody').innerHTML=P.map(function(p){
+    var avg=(p.TOTAL/Math.max(1,p.dias)).toFixed(1);
+    return '<tr><td style="font-size:12px;"><strong>'+p.nombre+'</strong></td><td>'+tipoTag(p.tipo)+'</td><td class="r mono">'+p.dias+'/'+nDias+'</td><td class="r mono" style="color:var(--azul);">'+(p.CE||'—')+'</td><td class="r mono" style="color:var(--gold);">'+(p.SB||'—')+'</td><td class="r mono" style="color:var(--guinda);">'+(p.SM||'—')+'</td><td class="r" style="font-weight:600;font-family:IBM Plex Mono,monospace;">'+p.TOTAL+'</td><td class="r mono">'+avg+'</td><td class="r mono" style="color:var(--gris);">'+(p.DET||'—')+'</td></tr>';
+  }).join('');
+}
+function renderHallazgos(){
+  var D=DATA,T=D.totales,E=D.especialidades,P=D.profesionales||[];
+  var nDias=D.dias.length;
+  var insights=[];
+  if(P.length>0){
+    var top=P[0];
+    var avg=(top.TOTAL/Math.max(1,top.dias)).toFixed(1);
+    insights.push({cls:'fuerza',head:'★ '+top.nombre.split(',')[0]+': '+top.TOTAL+' consultas'+(top.DET>0?' + '+top.DET+' detecciones':''),text:'Registró '+top.TOTAL+' consultas en '+top.dias+' de '+nDias+' días ('+avg+'/día), siendo el profesional de mayor producción de la semana.'+(top.DET>0?' Adicionalmente acumuló '+top.DET+' detecciones.':'')});
+  }
+  var maxDia=D.por_dia.reduce(function(mx,d){return d.TOTAL>mx.TOTAL?d:mx;},D.por_dia[0]);
+  var minDia=D.por_dia.reduce(function(mn,d){return d.TOTAL<mn.TOTAL?d:mn;},D.por_dia[0]);
+  insights.push({cls:'info',head:'◆ Día más productivo: '+maxDia.fecha+' ('+maxDia.TOTAL+' consultas)',text:'Pico semanal de '+maxDia.CE+' CE + '+maxDia.SB+' SB + '+maxDia.SM+' SM. Mínimo: '+minDia.fecha+' con '+minDia.TOTAL+' consultas. Diferencia pico-mínimo: '+(maxDia.TOTAL-minDia.TOTAL)+' consultas.'});
+  if(E.length>=2){
+    var pct=((( E[0].TOTAL+E[1].TOTAL)/T.TOTAL)*100).toFixed(1);
+    insights.push({cls:'fuerza',head:'✓ '+E[0].nombre+' lidera con '+E[0].TOTAL+' consultas ('+((E[0].TOTAL/T.TOTAL)*100).toFixed(1)+'%)',text:E[0].nombre+' y '+E[1].nombre+' concentran el '+pct+'% del volumen total ('+E[0].TOTAL+' + '+E[1].TOTAL+' = '+(E[0].TOTAL+E[1].TOTAL)+' de '+T.TOTAL+' consultas).'});
+  }
+  var alertText='';
+  var smEsp=null;
+  E.forEach(function(e){if(e.nombre.includes('PSIC'))smEsp=e;});
+  if(!smEsp||smEsp.TOTAL===0) alertText='Salud mental sin actividad registrada esta semana. ';
+  else if(smEsp.TOTAL<5) alertText='Salud mental con baja producción ('+smEsp.TOTAL+' consultas, '+smEsp.nombre+'). ';
+  var lastD=D.por_dia[D.por_dia.length-1],firstD=D.por_dia[0];
+  if(lastD&&firstD&&lastD.TOTAL<firstD.TOTAL*0.75) alertText+='El '+lastD.fecha+' registra caída importante ('+lastD.TOTAL+' vs '+firstD.TOTAL+' del lunes).';
+  if(alertText) insights.push({cls:'alerta',head:'⚠ Áreas de seguimiento',text:alertText.trim()});
+  var soloUnDia=E.filter(function(e){return D.dias.filter(function(_,j){return (e.d_CE[j]||0)+(e.d_SB[j]||0)+(e.d_SM[j]||0)>0;}).length===1;});
+  if(soloUnDia.length>0) insights.push({cls:'debil',head:'▼ Servicios con presencia de 1 día únicamente',text:soloUnDia.map(function(e){return e.nombre+' ('+e.TOTAL+' cons.)';}).join(', ')+'. Revisar continuidad de atención.'});
+  document.getElementById('hallazgosGrid').innerHTML=insights.map(function(ins){return '<div class="insight '+ins.cls+'"><div class="insight-head">'+ins.head+'</div><div class="insight-text">'+ins.text+'</div></div>';}).join('');
+}
+function init(){if(typeof Chart==="undefined"){setTimeout(init,100);return;}renderAll();}
+window.onload=init;
+</script>
+</body>
+</html>
