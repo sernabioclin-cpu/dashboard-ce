@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Productividad CE · HGR Reynosa · 28 al 2 de oct 2026</title>
+<title>Productividad CE · HGR Reynosa · 5 al 9 de oct 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -99,82 +99,82 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 </style>
 </head>
 <body>
-<div class="header"><div class="header-strip">IMSS-Bienestar · CLUES: TSIMB001260 · Subdirección de Planeación y Calidad · Q.F.B. Protacio Serna Ramírez</div><div class="header-inner"><div class="header-accent"></div><div class="header-content"><div class="header-sup">Dashboard de productividad · Consulta externa por especialidad</div><div class="header-title">Hospital General Reynosa "Dr. José María Cantú Garza"</div><div class="header-sub" id="headerSub">Semana: 28 al 2 de oct 2026 · 5 días hábiles · Director General: Dr. Néstor Carlos García Prugue</div></div><div class="header-kpis"><div class="hkpi"><div class="hkpi-val" id="kTOTAL">486</div><div class="hkpi-label">Total consultas</div></div><div class="hkpi"><div class="hkpi-val" id="kCE">456</div><div class="hkpi-label">C. Externa</div></div><div class="hkpi"><div class="hkpi-val" id="kSB">22</div><div class="hkpi-label">Salud Bucal</div></div><div class="hkpi"><div class="hkpi-val" id="kSM">8</div><div class="hkpi-label">Salud Mental</div></div><div class="hkpi"><div class="hkpi-val" id="kDET">21</div><div class="hkpi-label">Detecciones</div></div></div></div></div>
-<div class="main"><div id="kpiCards" class="g4" style="margin-top:14px;"></div><div id="kpiCards2" class="g5" style="margin-bottom:10px;"></div><div class="sec">Volumen y distribución por especialidad</div><div class="g23" style="margin-bottom:10px;"><div class="card"><div class="card-title">Consultas totales por especialidad</div><div id="svcBars"></div></div><div class="card"><div class="card-title">Distribución porcentual</div><div style="position:relative;width:100%;height:300px;"><canvas id="donutChart"></canvas></div></div></div><div class="sec">Evolución diaria</div><div class="card" style="margin-bottom:10px;"><div class="card-title">Tendencia diaria — especialidades de mayor volumen</div><div class="leg" id="trendLeg"></div><div style="position:relative;width:100%;height:240px;"><canvas id="trendChart"></canvas></div></div><div class="g2" style="margin-bottom:10px;"><div class="card"><div class="card-title">Composición diaria por especialidad (apiladas)</div><div style="position:relative;width:100%;height:240px;"><canvas id="stackedChart"></canvas></div></div><div class="card"><div class="card-title">Resumen diario</div><table class="tbl"><thead><tr><th>Día</th><th class="r" style="color:var(--azul)">C.Ext</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r" style="color:var(--gris)">Detect.</th></tr></thead><tbody id="dayTbody"></tbody></table></div></div><div class="sec">Mapa de calor — consultas por especialidad y día</div><div class="card" style="padding:13px 9px;margin-bottom:10px;overflow-x:auto;"><table class="hm-tbl" id="heatTable"></table></div><div class="sec">Tabla completa por especialidad</div><div class="card" style="padding:0;overflow:hidden;margin-bottom:10px;"><table class="tbl"><thead><tr><th>Especialidad</th><th class="r">C. Externa</th><th class="r">S. Bucal</th><th class="r">S. Mental</th><th class="r">Total</th><th class="r">% total</th><th class="r">Máx día</th><th class="r">Detecciones</th></tr></thead><tbody id="svcTbody"></tbody><tfoot><tr><td>TOTAL</td><td class="r" id="ftCE">456</td><td class="r" id="ftSB">22</td><td class="r" id="ftSM">8</td><td class="r" id="ftTOT">486</td><td class="r">100%</td><td class="r">—</td><td class="r" id="ftDET">21</td></tr></tfoot></table></div><div class="sec">Desempeño por profesional</div><div style="display:grid;grid-template-columns:340px 1fr;gap:10px;margin-bottom:10px;"><div class="card"><div class="card-title">Ranking — consulta externa (semana)</div><div id="profRankingBars"></div></div><div class="card" style="padding:0;overflow:hidden;"><table class="tbl"><thead><tr><th>Profesional</th><th>Tipo</th><th class="r">Días</th><th class="r" style="color:var(--azul)">C. Ext.</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r">Prom/día</th><th class="r" style="color:var(--gris)">Det.</th></tr></thead><tbody id="profTbody"></tbody></table></div></div><div class="sec">Hallazgos clave</div><div class="ins-grid" id="hallazgosGrid" style="margin-bottom:10px;"></div></div>
-<div class="footer">Semana: 28 al 2 de oct 2026 · Publicado: 6/10/2026 · Hospital General Reynosa · IMSS-Bienestar · CLUES: TSIMB001260</div>
+<div class="header"><div class="header-strip">IMSS-Bienestar · CLUES: TSIMB001260 · Subdirección de Planeación y Calidad · Q.F.B. Protacio Serna Ramírez</div><div class="header-inner"><div class="header-accent"></div><div class="header-content"><div class="header-sup">Dashboard de productividad · Consulta externa por especialidad</div><div class="header-title">Hospital General Reynosa "Dr. José María Cantú Garza"</div><div class="header-sub" id="headerSub">Semana: 5 al 9 de oct 2026 · 5 días hábiles · Director General: Dr. Néstor Carlos García Prugue</div></div><div class="header-kpis"><div class="hkpi"><div class="hkpi-val" id="kTOTAL">493</div><div class="hkpi-label">Total consultas</div></div><div class="hkpi"><div class="hkpi-val" id="kCE">481</div><div class="hkpi-label">C. Externa</div></div><div class="hkpi"><div class="hkpi-val" id="kSB">8</div><div class="hkpi-label">Salud Bucal</div></div><div class="hkpi"><div class="hkpi-val" id="kSM">4</div><div class="hkpi-label">Salud Mental</div></div><div class="hkpi"><div class="hkpi-val" id="kDET">94</div><div class="hkpi-label">Detecciones</div></div></div></div></div>
+<div class="main"><div id="kpiCards" class="g4" style="margin-top:14px;"></div><div id="kpiCards2" class="g5" style="margin-bottom:10px;"></div><div class="sec">Volumen y distribución por especialidad</div><div class="g23" style="margin-bottom:10px;"><div class="card"><div class="card-title">Consultas totales por especialidad</div><div id="svcBars"></div></div><div class="card"><div class="card-title">Distribución porcentual</div><div style="position:relative;width:100%;height:300px;"><canvas id="donutChart"></canvas></div></div></div><div class="sec">Evolución diaria</div><div class="card" style="margin-bottom:10px;"><div class="card-title">Tendencia diaria — especialidades de mayor volumen</div><div class="leg" id="trendLeg"></div><div style="position:relative;width:100%;height:240px;"><canvas id="trendChart"></canvas></div></div><div class="g2" style="margin-bottom:10px;"><div class="card"><div class="card-title">Composición diaria por especialidad (apiladas)</div><div style="position:relative;width:100%;height:240px;"><canvas id="stackedChart"></canvas></div></div><div class="card"><div class="card-title">Resumen diario</div><table class="tbl"><thead><tr><th>Día</th><th class="r" style="color:var(--azul)">C.Ext</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r" style="color:var(--gris)">Detect.</th></tr></thead><tbody id="dayTbody"></tbody></table></div></div><div class="sec">Mapa de calor — consultas por especialidad y día</div><div class="card" style="padding:13px 9px;margin-bottom:10px;overflow-x:auto;"><table class="hm-tbl" id="heatTable"></table></div><div class="sec">Tabla completa por especialidad</div><div class="card" style="padding:0;overflow:hidden;margin-bottom:10px;"><table class="tbl"><thead><tr><th>Especialidad</th><th class="r">C. Externa</th><th class="r">S. Bucal</th><th class="r">S. Mental</th><th class="r">Total</th><th class="r">% total</th><th class="r">Máx día</th><th class="r">Detecciones</th></tr></thead><tbody id="svcTbody"></tbody><tfoot><tr><td>TOTAL</td><td class="r" id="ftCE">481</td><td class="r" id="ftSB">8</td><td class="r" id="ftSM">4</td><td class="r" id="ftTOT">493</td><td class="r">100%</td><td class="r">—</td><td class="r" id="ftDET">94</td></tr></tfoot></table></div><div class="sec">Desempeño por profesional</div><div style="display:grid;grid-template-columns:340px 1fr;gap:10px;margin-bottom:10px;"><div class="card"><div class="card-title">Ranking — consulta externa (semana)</div><div id="profRankingBars"></div></div><div class="card" style="padding:0;overflow:hidden;"><table class="tbl"><thead><tr><th>Profesional</th><th>Tipo</th><th class="r">Días</th><th class="r" style="color:var(--azul)">C. Ext.</th><th class="r" style="color:var(--gold)">S.Buc</th><th class="r" style="color:var(--guinda)">S.Men</th><th class="r">Total</th><th class="r">Prom/día</th><th class="r" style="color:var(--gris)">Det.</th></tr></thead><tbody id="profTbody"></tbody></table></div></div><div class="sec">Hallazgos clave</div><div class="ins-grid" id="hallazgosGrid" style="margin-bottom:10px;"></div></div>
+<div class="footer">Semana: 5 al 9 de oct 2026 · Publicado: 13/10/2026 · Hospital General Reynosa · IMSS-Bienestar · CLUES: TSIMB001260</div>
 <script>
 var PALETTE=["#1a4a8a","#7a1a4a","#0d6e6e","#1a7a3a","#8a5a1a","#5a3a8a","#2a6e3a","#8a3a1a","#1a5a7a","#4a7a3a","#3a6a8a","#6a4a1a","#6e1a1a","#5a1a5a","#1a3a6a","#6e6e1a","#3a1a6e","#1a6e4a"];
 var DATA={
-  "semana": "28 al 2 de oct 2026",
+  "semana": "5 al 9 de oct 2026",
   "dias": [
-    "Lun 28",
-    "Mar 29",
-    "Mié 30",
-    "Jue 1",
-    "Vie 2"
+    "Lun 5",
+    "Mar 6",
+    "Mié 7",
+    "Jue 8",
+    "Vie 9"
   ],
   "totales": {
-    "CE": 456,
-    "SB": 22,
-    "SM": 8,
-    "DET": 21,
-    "TOTAL": 486
+    "CE": 481,
+    "SB": 8,
+    "SM": 4,
+    "DET": 94,
+    "TOTAL": 493
   },
   "por_dia": [
     {
-      "fecha": "Lun 28",
-      "CE": 119,
-      "SB": 2,
-      "SM": 4,
-      "DET": 0,
-      "TOTAL": 125
-    },
-    {
-      "fecha": "Mar 29",
-      "CE": 112,
-      "SB": 2,
-      "SM": 4,
-      "DET": 21,
-      "TOTAL": 118
-    },
-    {
-      "fecha": "Mié 30",
+      "fecha": "Lun 5",
       "CE": 106,
-      "SB": 9,
+      "SB": 0,
       "SM": 0,
-      "DET": 0,
-      "TOTAL": 115
+      "DET": 16,
+      "TOTAL": 106
     },
     {
-      "fecha": "Jue 1",
-      "CE": 85,
-      "SB": 4,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 89
+      "fecha": "Mar 6",
+      "CE": 101,
+      "SB": 2,
+      "SM": 4,
+      "DET": 20,
+      "TOTAL": 107
     },
     {
-      "fecha": "Vie 2",
-      "CE": 34,
+      "fecha": "Mié 7",
+      "CE": 103,
       "SB": 5,
       "SM": 0,
-      "DET": 0,
-      "TOTAL": 39
+      "DET": 20,
+      "TOTAL": 108
+    },
+    {
+      "fecha": "Jue 8",
+      "CE": 101,
+      "SB": 0,
+      "SM": 0,
+      "DET": 13,
+      "TOTAL": 101
+    },
+    {
+      "fecha": "Vie 9",
+      "CE": 70,
+      "SB": 1,
+      "SM": 0,
+      "DET": 25,
+      "TOTAL": 71
     }
   ],
   "especialidades": [
     {
-      "nombre": "MEDICINA GENERAL",
-      "CE": 81,
+      "nombre": "NEFROLOGÍA",
+      "CE": 86,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
-        31,
         18,
-        18,
-        12,
-        2
+        17,
+        16,
+        16,
+        19
       ],
       "d_SB": [
         0,
@@ -197,20 +197,20 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 81
+      "TOTAL": 86
     },
     {
       "nombre": "MEDICINA INTERNA",
-      "CE": 71,
+      "CE": 79,
       "SB": 0,
       "SM": 0,
-      "DET": 21,
+      "DET": 57,
       "d_CE": [
-        10,
         18,
-        16,
         14,
-        13
+        15,
+        14,
+        18
       ],
       "d_SB": [
         0,
@@ -227,26 +227,26 @@ var DATA={
         0
       ],
       "d_DET": [
-        0,
-        21,
-        0,
-        0,
-        0
+        9,
+        13,
+        15,
+        8,
+        12
       ],
-      "TOTAL": 71
+      "TOTAL": 79
     },
     {
-      "nombre": "GINECOLOGÍA",
-      "CE": 55,
+      "nombre": "MEDICINA GENERAL",
+      "CE": 79,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
+        11,
         16,
-        10,
-        14,
-        10,
-        5
+        18,
+        24,
+        10
       ],
       "d_SB": [
         0,
@@ -269,92 +269,92 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 55
+      "TOTAL": 79
     },
     {
-      "nombre": "EPIDEMIOLOGÍA",
-      "CE": 54,
+      "nombre": "TRAUMATOLOGÍA",
+      "CE": 51,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        4,
+        24,
+        13,
+        10,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 51
+    },
+    {
+      "nombre": "CIRUGÍA GENERAL",
+      "CE": 38,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        17,
+        5,
+        5,
+        11,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 38
+    },
+    {
+      "nombre": "GINECOLOGÍA",
+      "CE": 37,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
         12,
         7,
-        24,
-        10,
-        1
-      ],
-      "d_SB": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SM": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_DET": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "TOTAL": 54
-    },
-    {
-      "nombre": "NEFROLOGÍA",
-      "CE": 50,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "d_CE": [
-        18,
-        16,
-        16,
-        0,
-        0
-      ],
-      "d_SB": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SM": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_DET": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "TOTAL": 50
-    },
-    {
-      "nombre": "CIRUGÍA GENERAL",
-      "CE": 37,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "d_CE": [
-        11,
-        0,
-        10,
-        11,
-        5
+        9,
+        3,
+        6
       ],
       "d_SB": [
         0,
@@ -380,17 +380,53 @@ var DATA={
       "TOTAL": 37
     },
     {
+      "nombre": "EPIDEMIOLOGÍA",
+      "CE": 29,
+      "SB": 0,
+      "SM": 0,
+      "DET": 37,
+      "d_CE": [
+        8,
+        5,
+        5,
+        5,
+        6
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        7,
+        7,
+        5,
+        5,
+        13
+      ],
+      "TOTAL": 29
+    },
+    {
       "nombre": "PEDIATRÍA",
-      "CE": 35,
+      "CE": 24,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
+        4,
+        5,
+        3,
         7,
-        9,
-        7,
-        10,
-        2
+        5
       ],
       "d_SB": [
         0,
@@ -413,56 +449,20 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 35
+      "TOTAL": 24
     },
     {
       "nombre": "ANESTESIOLOGÍA",
-      "CE": 20,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "d_CE": [
-        7,
-        9,
-        0,
-        4,
-        0
-      ],
-      "d_SB": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SM": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_DET": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "TOTAL": 20
-    },
-    {
-      "nombre": "TRAUMATOLOGÍA",
       "CE": 19,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
+        10,
+        2,
         0,
-        18,
-        0,
-        0,
-        1
+        7,
+        0
       ],
       "d_SB": [
         0,
@@ -488,53 +488,17 @@ var DATA={
       "TOTAL": 19
     },
     {
-      "nombre": "ODONTOLOGÍA",
-      "CE": 0,
-      "SB": 18,
+      "nombre": "OFTALMOLOGÍA",
+      "CE": 11,
+      "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SB": [
+        3,
+        4,
         2,
         2,
-        5,
-        4,
-        5
-      ],
-      "d_SM": [
-        0,
-        0,
-        0,
-        0,
         0
-      ],
-      "d_DET": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "TOTAL": 18
-    },
-    {
-      "nombre": "OPTOMETRISTA",
-      "CE": 15,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "d_CE": [
-        7,
-        0,
-        0,
-        4,
-        4
       ],
       "d_SB": [
         0,
@@ -557,19 +521,19 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 15
+      "TOTAL": 11
     },
     {
-      "nombre": "GINECOLOGÍA ONCOLÓGICA",
-      "CE": 10,
+      "nombre": "GINECOLOGÍA INTENSIVISTA",
+      "CE": 8,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
         0,
         0,
-        0,
-        10,
+        6,
+        2,
         0
       ],
       "d_SB": [
@@ -582,42 +546,6 @@ var DATA={
       "d_SM": [
         0,
         0,
-        0,
-        0,
-        0
-      ],
-      "d_DET": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "TOTAL": 10
-    },
-    {
-      "nombre": "PSICOLOGÍA",
-      "CE": 0,
-      "SB": 0,
-      "SM": 8,
-      "DET": 0,
-      "d_CE": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SB": [
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "d_SM": [
-        4,
-        4,
         0,
         0,
         0
@@ -632,15 +560,15 @@ var DATA={
       "TOTAL": 8
     },
     {
-      "nombre": "NEUROCIRUGÍA",
-      "CE": 4,
+      "nombre": "DISPLACIAS",
+      "CE": 6,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
         0,
+        2,
         4,
-        0,
         0,
         0
       ],
@@ -665,12 +593,48 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 4
+      "TOTAL": 6
     },
     {
-      "nombre": "MÁXILO FACIAL",
+      "nombre": "CIRUGÍA ONCOLÓGICA",
+      "CE": 6,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        0,
+        6
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 6
+    },
+    {
+      "nombre": "ODONTOLOGÍA",
       "CE": 0,
-      "SB": 4,
+      "SB": 5,
       "SM": 0,
       "DET": 0,
       "d_CE": [
@@ -682,8 +646,44 @@ var DATA={
       ],
       "d_SB": [
         0,
+        2,
+        2,
         0,
-        4,
+        1
+      ],
+      "d_SM": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "TOTAL": 5
+    },
+    {
+      "nombre": "REUMATOLOGÃA",
+      "CE": 5,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        5,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
         0,
         0
       ],
@@ -701,18 +701,54 @@ var DATA={
         0,
         0
       ],
+      "TOTAL": 5
+    },
+    {
+      "nombre": "PSICOLOGÍA",
+      "CE": 0,
+      "SB": 0,
+      "SM": 4,
+      "DET": 0,
+      "d_CE": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SB": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "d_SM": [
+        0,
+        4,
+        0,
+        0,
+        0
+      ],
+      "d_DET": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
       "TOTAL": 4
     },
     {
-      "nombre": "UROLOGÍA GINECOLÓGICA",
+      "nombre": "DERMATOLOGÍA",
       "CE": 3,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "d_CE": [
+        1,
         0,
-        3,
-        0,
+        2,
         0,
         0
       ],
@@ -740,22 +776,22 @@ var DATA={
       "TOTAL": 3
     },
     {
-      "nombre": "NUTRICIÓN",
-      "CE": 2,
-      "SB": 0,
+      "nombre": "MÁXILO FACIAL",
+      "CE": 0,
+      "SB": 3,
       "SM": 0,
       "DET": 0,
       "d_CE": [
         0,
         0,
-        1,
         0,
-        1
+        0,
+        0
       ],
       "d_SB": [
         0,
         0,
-        0,
+        3,
         0,
         0
       ],
@@ -773,54 +809,34 @@ var DATA={
         0,
         0
       ],
-      "TOTAL": 2
+      "TOTAL": 3
     }
   ],
   "profesionales": [
     {
-      "nombre": "JOSEFA LOPEZ VIVEROS",
-      "tipo": "EPIDEMIOLOGÍA",
-      "dias": 5,
-      "CE": 54,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 54
-    },
-    {
       "nombre": "NESTOR CARLOS GARCIA PRUGUE",
       "tipo": "NEFROLOGÍA",
-      "dias": 3,
-      "CE": 50,
+      "dias": 5,
+      "CE": 86,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 50
+      "TOTAL": 86
     },
     {
       "nombre": "ALBERTO ONOFRE SANCHEZ MEZA",
       "tipo": "MEDICINA INTERNA",
-      "dias": 4,
-      "CE": 40,
+      "dias": 5,
+      "CE": 58,
       "SB": 0,
       "SM": 0,
-      "DET": 21,
-      "TOTAL": 40
+      "DET": 57,
+      "TOTAL": 58
     },
     {
-      "nombre": "LIZETH GREGORIA MIRELES MARROQUIN",
+      "nombre": "JOSE ROBERTO SEQUERA MORENO",
       "tipo": "MEDICINA GENERAL",
       "dias": 4,
-      "CE": 37,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 37
-    },
-    {
-      "nombre": "MAYRA YURIDIA MUNE MALDONADO",
-      "tipo": "PEDIATRÍA",
-      "dias": 5,
       "CE": 35,
       "SB": 0,
       "SM": 0,
@@ -828,28 +844,38 @@ var DATA={
       "TOTAL": 35
     },
     {
-      "nombre": "GUDBERTO GARCIA BORREGO",
-      "tipo": "MEDICINA INTERNA",
-      "dias": 5,
-      "CE": 31,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 31
-    },
-    {
-      "nombre": "JOSE ROBERTO SEQUERA MORENO",
+      "nombre": "LIZETH GREGORIA MIRELES MARROQUIN",
       "tipo": "MEDICINA GENERAL",
       "dias": 5,
-      "CE": 28,
+      "CE": 34,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 28
+      "TOTAL": 34
     },
     {
       "nombre": "JOSE ALFREDO ALTAMIRANO BENITEZ",
       "tipo": "CIRUGÍA GENERAL",
+      "dias": 3,
+      "CE": 33,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 33
+    },
+    {
+      "nombre": "JOSEFA LOPEZ VIVEROS",
+      "tipo": "EPIDEMIOLOGÍA",
+      "dias": 5,
+      "CE": 29,
+      "SB": 0,
+      "SM": 0,
+      "DET": 37,
+      "TOTAL": 29
+    },
+    {
+      "nombre": "FELIPE CABRERA OLVERA",
+      "tipo": "TRAUMATOLOGÍA",
       "dias": 3,
       "CE": 27,
       "SB": 0,
@@ -858,79 +884,79 @@ var DATA={
       "TOTAL": 27
     },
     {
+      "nombre": "MAYRA YURIDIA MUNE MALDONADO",
+      "tipo": "PEDIATRÍA",
+      "dias": 5,
+      "CE": 23,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 23
+    },
+    {
+      "nombre": "ARMANDO JESUS CANTU ANDRE",
+      "tipo": "TRAUMATOLOGÍA",
+      "dias": 1,
+      "CE": 22,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 22
+    },
+    {
+      "nombre": "CHRISTIAN AMEZCUA GARCIA",
+      "tipo": "MEDICINA INTERNA",
+      "dias": 5,
+      "CE": 21,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 21
+    },
+    {
       "nombre": "JOSE RAMIRO RUIZ MATA",
       "tipo": "ANESTESIOLOGÍA",
       "dias": 3,
-      "CE": 20,
+      "CE": 19,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 20
+      "TOTAL": 19
     },
     {
-      "nombre": "JORGE LUIS LEON GONZALEZ",
+      "nombre": "MARIBEL LARA CHAVARRIA",
       "tipo": "GINECOLOGÍA",
-      "dias": 3,
-      "CE": 18,
+      "dias": 5,
+      "CE": 14,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 18
+      "TOTAL": 14
     },
     {
       "nombre": "ERNESTO CANTU CANTU",
       "tipo": "GINECOLOGÍA",
       "dias": 3,
-      "CE": 17,
+      "CE": 12,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 17
+      "TOTAL": 12
+    },
+    {
+      "nombre": "CARLOS GUEVARA REYES",
+      "tipo": "OFTALMOLOGÍA",
+      "dias": 4,
+      "CE": 11,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 11
     },
     {
       "nombre": "CELIA MARIA PEREZ GONZALEZ",
       "tipo": "MEDICINA GENERAL",
       "dias": 4,
-      "CE": 16,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 16
-    },
-    {
-      "nombre": "ARMANDO JESUS CANTU ANDRE",
-      "tipo": "TRAUMATOLOGÍA",
-      "dias": 2,
-      "CE": 16,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 16
-    },
-    {
-      "nombre": "LARIZA LIZBETH REYNA RAMIREZ",
-      "tipo": "OPTOMETRISTA",
-      "dias": 3,
-      "CE": 15,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 15
-    },
-    {
-      "nombre": "GUADALUPE VILLARREAL CANTU",
-      "tipo": "ODONTOLOGÍA",
-      "dias": 4,
-      "CE": 0,
-      "SB": 10,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 10
-    },
-    {
-      "nombre": "MARIBEL LARA CHAVARRIA",
-      "tipo": "GINECOLOGÍA",
-      "dias": 2,
       "CE": 10,
       "SB": 0,
       "SM": 0,
@@ -938,39 +964,19 @@ var DATA={
       "TOTAL": 10
     },
     {
-      "nombre": "ROBERTO OLVERA OBELE",
-      "tipo": "CIRUGÍA GENERAL",
-      "dias": 1,
-      "CE": 10,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 10
-    },
-    {
-      "nombre": "JOSE LUIS BAÑUELOS RAMIREZ",
-      "tipo": "GINECOLOGÍA ONCOLÓGICA",
-      "dias": 1,
-      "CE": 10,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 10
-    },
-    {
-      "nombre": "DORA ELIA MORENO PECINA",
-      "tipo": "PSICOLOGÍA",
+      "nombre": "BERENICE HERRERA PECINA",
+      "tipo": "GINECOLOGÍA INTENSIVISTA",
       "dias": 2,
-      "CE": 0,
+      "CE": 8,
       "SB": 0,
-      "SM": 8,
+      "SM": 0,
       "DET": 0,
       "TOTAL": 8
     },
     {
-      "nombre": "MARCELA QUEIKO SEO MENDOZA",
+      "nombre": "JESUS GUTIERREZ SERMEÑO",
       "tipo": "GINECOLOGÍA",
-      "dias": 1,
+      "dias": 2,
       "CE": 7,
       "SB": 0,
       "SM": 0,
@@ -978,39 +984,59 @@ var DATA={
       "TOTAL": 7
     },
     {
-      "nombre": "JORGE GONZALEZ MENABRITO",
-      "tipo": "ODONTOLOGÍA",
-      "dias": 3,
-      "CE": 0,
-      "SB": 5,
+      "nombre": "JUAN LUIS ALEMAN DE LA FUENTE",
+      "tipo": "DISPLACIAS",
+      "dias": 2,
+      "CE": 6,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 6
+    },
+    {
+      "nombre": "HECTOR SIERRA CASTILLO",
+      "tipo": "CIRUGÍA ONCOLÓGICA",
+      "dias": 1,
+      "CE": 6,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 6
+    },
+    {
+      "nombre": "SALVADOR VICENTE GARCIA CALDERA",
+      "tipo": "CIRUGÍA GENERAL",
+      "dias": 1,
+      "CE": 5,
+      "SB": 0,
       "SM": 0,
       "DET": 0,
       "TOTAL": 5
     },
     {
-      "nombre": "ROBERTO DIAZ ESTRADA",
-      "tipo": "NEUROCIRUGÍA",
+      "nombre": "ADRIAN ELIUD ARJONA GARCIA",
+      "tipo": "REUMATOLOGÃA",
       "dias": 1,
-      "CE": 4,
+      "CE": 5,
       "SB": 0,
       "SM": 0,
       "DET": 0,
-      "TOTAL": 4
+      "TOTAL": 5
     },
     {
-      "nombre": "CARLOS ALBERTO ACOSTA PEÑA",
-      "tipo": "MÁXILO FACIAL",
+      "nombre": "DORA ELIA MORENO PECINA",
+      "tipo": "PSICOLOGÍA",
       "dias": 1,
       "CE": 0,
-      "SB": 4,
-      "SM": 0,
+      "SB": 0,
+      "SM": 4,
       "DET": 0,
       "TOTAL": 4
     },
     {
-      "nombre": "JESUS ENRIQUE MENDOZA GARZA",
+      "nombre": "GUADALUPE VILLARREAL CANTU",
       "tipo": "ODONTOLOGÍA",
-      "dias": 2,
+      "dias": 3,
       "CE": 0,
       "SB": 3,
       "SM": 0,
@@ -1018,44 +1044,84 @@ var DATA={
       "TOTAL": 3
     },
     {
-      "nombre": "ALBERTO ARROYO NAVA",
-      "tipo": "UROLOGÍA GINECOLÓGICA",
+      "nombre": "CARLOS ALBERTO ACOSTA PEÑA",
+      "tipo": "MÁXILO FACIAL",
       "dias": 1,
-      "CE": 3,
-      "SB": 0,
+      "CE": 0,
+      "SB": 3,
       "SM": 0,
       "DET": 0,
       "TOTAL": 3
+    },
+    {
+      "nombre": "JESUS ENRIQUE MENDOZA GARZA",
+      "tipo": "ODONTOLOGÍA",
+      "dias": 2,
+      "CE": 0,
+      "SB": 2,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
     },
     {
       "nombre": "LUIS FERNANDO GONZALEZ ALATORRE",
       "tipo": "TRAUMATOLOGÍA",
       "dias": 1,
-      "CE": 3,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 3
-    },
-    {
-      "nombre": "JESUS GUTIERREZ SERMEÑO",
-      "tipo": "GINECOLOGÍA",
-      "dias": 1,
-      "CE": 3,
-      "SB": 0,
-      "SM": 0,
-      "DET": 0,
-      "TOTAL": 3
-    },
-    {
-      "nombre": "SYLVIA ARACELY CARRANZA PEÑA",
-      "tipo": "NUTRICIÓN",
-      "dias": 2,
       "CE": 2,
       "SB": 0,
       "SM": 0,
       "DET": 0,
       "TOTAL": 2
+    },
+    {
+      "nombre": "MARCELA QUEIKO SEO MENDOZA",
+      "tipo": "GINECOLOGÍA",
+      "dias": 1,
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
+    },
+    {
+      "nombre": "PEDRO SEGUNDO MARTINEZ",
+      "tipo": "DERMATOLOGÍA",
+      "dias": 1,
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
+    },
+    {
+      "nombre": "JORGE LUIS LEON GONZALEZ",
+      "tipo": "GINECOLOGÍA",
+      "dias": 1,
+      "CE": 2,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 2
+    },
+    {
+      "nombre": "PEDRO SEGUNDO MARTINEZ AMADOR",
+      "tipo": "DERMATOLOGÍA",
+      "dias": 1,
+      "CE": 1,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 1
+    },
+    {
+      "nombre": "CLAUDIA SUAREZ ZARATE",
+      "tipo": "PEDIATRÍA",
+      "dias": 1,
+      "CE": 1,
+      "SB": 0,
+      "SM": 0,
+      "DET": 0,
+      "TOTAL": 1
     }
   ]
 };
